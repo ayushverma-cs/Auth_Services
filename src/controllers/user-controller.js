@@ -45,10 +45,11 @@ const signIn = async (req, res) => {
         });
     }
 }
+
 const isAuthenticated = async (req, res) => {
     try {
         const token = req.headers['x-access-token'];
-        const response =  await userService.isAuthenticated(token);
+        const response = await userService.isAuthenticated(token);
         return res.status(200).json({
             success: true,
             err: {},
@@ -65,6 +66,7 @@ const isAuthenticated = async (req, res) => {
         });
     }
 }
+
 const isAdmin = async(req, res) => {
     try {
         const response = await userService.isAdmin(req.body.id);

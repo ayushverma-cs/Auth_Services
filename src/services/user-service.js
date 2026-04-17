@@ -35,6 +35,22 @@ class UserService{
             throw error;
         }
     }
+   async isAuthenticated(token) {
+        try {
+            const response = this.verifyToken(token);
+            if(!response) {
+                throw {error: 'Invalid token'}
+            }
+            const user =  this.userRepository.getById(response.id);
+            if(!user) {
+                throw {error: 'No user with the corresponding token exists'};
+            }
+            return user.id;
+        } catch (error) {
+            console.log("Something went wrong in the auth process");
+            throw error;
+        }
+    }
     createToken(user){
         try {
             
@@ -52,7 +68,7 @@ class UserService{
                 return response;
             } catch (error) {
                 console.log("Something wrong in token validation", error);
-                throw error;
+                throw error;  
             }
     }
     checkPassword(userInputPlainPassword,encryptedPassword){

@@ -2,6 +2,7 @@ const express= require('express');
 const bodyParser=require('body-parser');
 const {PORT}= require('./config/serverConfig');
 const apiRoutes=require('./routes/index');
+const {User,Role}= require('./models/index');
 // const {User}= require('./models/index');
 // const bcrypt = require('bcrypt');
 // const  UserRepository = require('./repository/user-repository');
@@ -13,6 +14,11 @@ const prepareAndStartServer=()=>{
     app.use('/api',apiRoutes);
     app.listen(PORT,async ()=>{
         console.log(`Server is running on port ${PORT}`);
+        if(process.env.DB_SYNC){
+            db.sequelize.sync({alter:true});
+        }
+       
+
         // const repo=new UserRepository();
         // const response=await repo.getById(1);
         // console.log(response);
@@ -26,6 +32,7 @@ const prepareAndStartServer=()=>{
         // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF5dXNoQGFkbWluLmNvbSIsImlkIjoxLCJpYXQiOjE3NzYzMjYwMTEsImV4cCI6MTc3NjMyOTYxMX0.N8PCvAsNMotMbIIGaNDf-DSdJoumOWqMf3iuVXq8h80'
         // const response=service.verifyToken(token);
         // console.log(response);
+
     });
 }
     prepareAndStartServer();

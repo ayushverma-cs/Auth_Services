@@ -5,7 +5,7 @@ class UserRepository{
         try {
             const user=await User.create(data);
             return user;
-            return user;
+            
         } catch (error) {
             console.log(error);
             throw error;
@@ -26,8 +26,6 @@ class UserRepository{
         try {
             const user=await User.findByPk(userId,{
                 attributes:['email','id'],
-
-                
             });
             return user;
         } catch (error) {
@@ -36,5 +34,18 @@ class UserRepository{
         }
     }
 
+    async getByEmail(userEmail){
+        try{
+            const user =await User.findOne({
+                where:{
+                    email:userEmail
+                }
+            });
+            return user;
+        } catch(error){
+            console.log("something went wrong on repository layer");
+            throw error;
+        }
+    }
 }
  module.exports=UserRepository;
